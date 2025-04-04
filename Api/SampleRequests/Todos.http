@@ -1,10 +1,10 @@
 ﻿@MinimalAPIs_HostAddress = https://localhost:7097
 
-GET {{MinimalAPIs_HostAddress}}/todoitems
+GET {{MinimalAPIs_HostAddress}}/todos
 
 ###
 
-POST {{MinimalAPIs_HostAddress}}/todoitems
+POST {{MinimalAPIs_HostAddress}}/todos
 Content-Type: application/json
 
 {
@@ -14,6 +14,6 @@ Content-Type: application/json
 
 ###
 
-GET {{MinimalAPIs_HostAddress}}/todoitems/complete
+GET {{MinimalAPIs_HostAddress}}/todos/complete
 
 ###

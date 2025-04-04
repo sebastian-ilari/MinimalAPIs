@@ -63,7 +63,7 @@ public class IntegrationTests : IntegrationTestsBase
     [Test]
     public async Task CreateTodo_ReturnsCreatedItem()
     {
-        var payload = new TodoDTO(new Todo
+        var payload = new TodoDto(new Todo
         {
             Id = 1,
             Name = "Test Todo",
@@ -73,7 +73,7 @@ public class IntegrationTests : IntegrationTestsBase
         using var client = application.CreateClient();
 
         var result = await client.PostAsJsonAsync("/todos", payload);
-        var content = await result.Content.ReadFromJsonAsync<TodoDTO>();
+        var content = await result.Content.ReadFromJsonAsync<TodoDto>();
 
         Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         Assert.That(content?.Id, Is.EqualTo(1));

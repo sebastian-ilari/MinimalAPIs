@@ -1,5 +1,5 @@
+using Api.Endpoints;
 using Microsoft.EntityFrameworkCore;
-using MinimalAPIs.Endpoints;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);

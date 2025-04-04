@@ -2,7 +2,7 @@
 using Models;
 using Persistence;
 
-namespace MinimalAPIs.Endpoints;
+namespace Api.Endpoints;
 
 public static class TodoEndpoints
 {
@@ -25,41 +25,41 @@ public static class TodoEndpoints
 
     static async Task<IResult> GetCompleteTodos(TodoDb db)
     {
-        return TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDTO(x)).ToListAsync());
+        return TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDto(x)).ToListAsync());
     }
 
     static async Task<IResult> GetTodoById(int id, TodoDb db)
     {
         return await db.Todos.FindAsync(id)
             is Todo todo
-                ? TypedResults.Ok(new TodoDTO(todo))
+                ? TypedResults.Ok(new TodoDto(todo))
                 : TypedResults.NotFound();
     }
 
-    static async Task<IResult> CreateTodo(TodoDTO todoDTO, TodoDb db)
+    static async Task<IResult> CreateTodo(TodoDto todoDto, TodoDb db)
     {
         var todo = new Todo
         {
-            IsComplete = todoDTO.IsComplete,
-            Name = todoDTO.Name
+            IsComplete = todoDto.IsComplete,
+            Name = todoDto.Name
         };
 
         db.Todos.Add(todo);
         await db.SaveChangesAsync();
 
-        todoDTO = new TodoDTO(todo);
+        todoDto = new TodoDto(todo);
 
-        return TypedResults.Created($"/todos/{todo.Id}", todoDTO);
+        return TypedResults.Created($"/todos/{todo.Id}", todoDto);
     }
 
-    static async Task<IResult> UpdateTodo(int id, TodoDTO todoDTO, TodoDb db)
+    static async Task<IResult> UpdateTodo(int id, TodoDto todoDto, TodoDb db)
     {
         var todo = await db.Todos.FindAsync(id);
 
         if (todo is null) return TypedResults.NotFound();
 
-        todo.Name = todoDTO.Name;
-        todo.IsComplete = todoDTO.IsComplete;
+        todo.Name = todoDto.Name;
+        todo.IsComplete = todoDto.IsComplete;
 
         await db.SaveChangesAsync();
 
