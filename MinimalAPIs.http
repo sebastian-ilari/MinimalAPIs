@@ -1,0 +1,19 @@
+﻿@MinimalAPIs_HostAddress = https://localhost:7097
+
+GET {{MinimalAPIs_HostAddress}}/todoitems
+
+###
+
+POST {{MinimalAPIs_HostAddress}}/todoitems
+Content-Type: application/json
+
+{
+  "name":"water plants",
+  "isComplete":false
+}
+
+###
+
+GET {{MinimalAPIs_HostAddress}}/todoitems/complete
+
+###
