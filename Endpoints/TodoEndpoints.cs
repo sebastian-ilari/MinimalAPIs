@@ -4,18 +4,18 @@ using Persistence;
 
 namespace MinimalAPIs.Endpoints;
 
-public static class TodoItemsEndpoints
+public static class TodoEndpoints
 {
-    public static void RegisterTodoItemsEndpoints(this WebApplication app)
+    public static void RegisterTodoEndpoints(this WebApplication app)
     {
-        RouteGroupBuilder todoItems = app.MapGroup("/todoitems");
+        RouteGroupBuilder todoApp = app.MapGroup("/todos");
 
-        todoItems.MapGet("/", GetAllTodos);
-        todoItems.MapGet("/complete", GetCompleteTodos);
-        todoItems.MapGet("/{id}", GetTodoById);
-        todoItems.MapPost("/", CreateTodo);
-        todoItems.MapPut("/{id}", UpdateTodo);
-        todoItems.MapDelete("/{id}", DeleteTodo);
+        todoApp.MapGet("/", GetAllTodos);
+        todoApp.MapGet("/complete", GetCompleteTodos);
+        todoApp.MapGet("/{id}", GetTodoById);
+        todoApp.MapPost("/", CreateTodo);
+        todoApp.MapPut("/{id}", UpdateTodo);
+        todoApp.MapDelete("/{id}", DeleteTodo);
     }
 
     static async Task<IResult> GetAllTodos(TodoDb db)
@@ -38,18 +38,18 @@ public static class TodoItemsEndpoints
 
     static async Task<IResult> CreateTodo(TodoDTO todoDTO, TodoDb db)
     {
-        var todoItem = new Todo
+        var todo = new Todo
         {
             IsComplete = todoDTO.IsComplete,
             Name = todoDTO.Name
         };
 
-        db.Todos.Add(todoItem);
+        db.Todos.Add(todo);
         await db.SaveChangesAsync();
 
-        todoDTO = new TodoDTO(todoItem);
+        todoDTO = new TodoDTO(todo);
 
-        return TypedResults.Created($"/todoitems/{todoItem.Id}", todoDTO);
+        return TypedResults.Created($"/todos/{todo.Id}", todoDTO);
     }
 
     static async Task<IResult> UpdateTodo(int id, TodoDTO todoDTO, TodoDb db)

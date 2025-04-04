@@ -53,7 +53,7 @@ public class IntegrationTests : IntegrationTestsBase
         _client = factory.CreateClient();
         */
 
-        var response = await _client.GetAsync("/todoitems");
+        var response = await _client.GetAsync("/todos");
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadAsStringAsync();
 
@@ -72,7 +72,7 @@ public class IntegrationTests : IntegrationTestsBase
         await using var application = new WebApplicationFactory<Program>();
         using var client = application.CreateClient();
 
-        var result = await client.PostAsJsonAsync("/todoitems", payload);
+        var result = await client.PostAsJsonAsync("/todos", payload);
         var content = await result.Content.ReadFromJsonAsync<TodoDTO>();
 
         Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Created));

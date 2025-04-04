@@ -9,7 +9,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 
-TodoItemsEndpoints.RegisterTodoItemsEndpoints(app);
+TodoEndpoints.RegisterTodoEndpoints(app);
 
 app.Run();
 
