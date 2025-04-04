@@ -19,4 +19,8 @@ public class Startup
         services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("MinimalAPIs"));
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+    }
 }
