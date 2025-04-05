@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Models;
 using Persistence;
 
-namespace Tests.Integration.Infrastructure;
+namespace Tests.Infrastructure;
 
 public class TestingApplication : WebApplicationFactory<Program>
 {

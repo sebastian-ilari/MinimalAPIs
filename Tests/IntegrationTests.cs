@@ -2,9 +2,9 @@
 using NUnit.Framework;
 using System.Net;
 using System.Net.Http.Json;
-using Tests.Integration.Infrastructure;
+using Tests.Infrastructure;
 
-namespace Tests.Integration;
+namespace Tests;
 
 [TestFixture]
 public class IntegrationTests : IntegrationTestsBase

@@ -3,7 +3,7 @@ using Models;
 using NUnit.Framework;
 using Persistence;
 
-namespace Tests.Integration.Infrastructure;
+namespace Tests.Infrastructure;
 
 [TestFixture]
 public abstract class IntegrationTestsBase
