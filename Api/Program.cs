@@ -2,6 +2,7 @@ using Api.Endpoints;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Persistence;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<TodoDb>(options =>
 TodoDbFactory.Create(DbName.ApplicationDb);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddTransient<ISecretService, SecretService>();
 
 var app = builder.Build();
 

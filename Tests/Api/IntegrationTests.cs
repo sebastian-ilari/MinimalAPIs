@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http.Json;
 using Tests.Infrastructure;
 
-namespace Tests;
+namespace Tests.Api;
 
 [TestFixture]
 public class IntegrationTests : IntegrationTestsBase

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models;
 using Persistence;
+using Services;
 
 namespace Api.Endpoints;
 
@@ -36,12 +37,13 @@ public static class TodoEndpoints
                 : TypedResults.NotFound();
     }
 
-    static async Task<IResult> CreateTodo(TodoDto todoDto, TodoDb db)
+    static async Task<IResult> CreateTodo(TodoDto todoDto, TodoDb db, ISecretService secretService)
     {
         var todo = new Todo
         {
             IsComplete = todoDto.IsComplete,
-            Name = todoDto.Name
+            Name = todoDto.Name,
+            Secret = secretService.GetSecret()
         };
 
         db.Todos.Add(todo);
