@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System.Net;
 using System.Net.Http.Json;
+using Tests.Integration.Infrastructure;
 
 namespace Tests.Integration;
 
@@ -11,7 +12,7 @@ public class IntegrationTests : IntegrationTestsBase
     [Test]
     public async Task GetAllTodos_ReturnsEmptyResult()
     {
-        var response = await Client.GetAsync("/todos");
+        var response = await _client.GetAsync("/todos");
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadAsStringAsync();
 
@@ -28,7 +29,7 @@ public class IntegrationTests : IntegrationTestsBase
             IsComplete = true
         });
 
-        var result = await Client.PostAsJsonAsync("/todos", payload);
+        var result = await _client.PostAsJsonAsync("/todos", payload);
         var content = await result.Content.ReadFromJsonAsync<TodoDto>();
 
         Assert.That(result.StatusCode, Is.EqualTo(HttpStatusCode.Created));

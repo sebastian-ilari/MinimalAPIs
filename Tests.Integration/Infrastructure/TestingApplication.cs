@@ -2,9 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models;
 using Persistence;
 
-namespace Tests;
+namespace Tests.Integration.Infrastructure;
 
 public class TestingApplication : WebApplicationFactory<Program>
 {
@@ -12,8 +13,8 @@ public class TestingApplication : WebApplicationFactory<Program>
     {
         builder.ConfigureServices(services =>
         {
-            services.AddDbContext<TodoDb>(opt => 
-                opt.UseInMemoryDatabase($"MinimalAPIsTests-{DateTime.Now.ToFileTimeUtc()}"));
+            services.AddDbContext<TodoDb>(opt =>
+                opt.UseSqlite($"Data Source={DbName.TestDb};Mode=Memory;Cache=Shared"));
         });
 
         return base.CreateHost(builder);
