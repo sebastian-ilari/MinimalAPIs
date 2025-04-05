@@ -4,20 +4,20 @@ namespace Persistence;
 
 public static class TodoDbFactory
 {
-    public static TodoDb Create(string databaseName)
+    public async static Task<TodoDb> Create(string databaseName)
     {
         var options = new DbContextOptionsBuilder<TodoDb>()
             .UseSqlite($"Data Source={databaseName};Mode=Memory;Cache=Shared")
             .Options;
 
         var context = new TodoDb(options);
-        context.Database.OpenConnection();
-        context.Database.EnsureCreated();
+        await context.Database.OpenConnectionAsync();
+        await context.Database.EnsureCreatedAsync();
 
         return context;
     }
 
-    public static void ClearData(TodoDb context)
+    public async static Task ClearData(TodoDb context)
     {
         var tables = context.Model.GetEntityTypes()
             .Select(t => t.GetTableName())
@@ -26,13 +26,13 @@ public static class TodoDbFactory
 
         foreach (var table in tables)
         {
-            context.Database.ExecuteSqlRaw($"DELETE FROM {table}");
+            await context.Database.ExecuteSqlRawAsync($"DELETE FROM {table}");
         }
     }
 
-    public static void Dispose(TodoDb context)
+    public async static Task Dispose(TodoDb context)
     {
-        context.Database.EnsureDeleted();
-        context.Dispose();
+        await context.Database.EnsureDeletedAsync();
+        await context.DisposeAsync();
     }
 }

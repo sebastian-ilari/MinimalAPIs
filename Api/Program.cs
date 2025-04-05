@@ -14,7 +14,7 @@ builder.Services.AddDbContext<TodoDb>(options =>
 {
     options.UseSqlite($"Data Source={DbName.ApplicationDb};Mode=Memory;Cache=Shared");
 });
-TodoDbFactory.Create(DbName.ApplicationDb);
+await TodoDbFactory.Create(DbName.ApplicationDb);
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<ISecretService, SecretService>();

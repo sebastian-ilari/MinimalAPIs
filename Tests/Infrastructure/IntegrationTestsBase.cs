@@ -13,27 +13,25 @@ public abstract class IntegrationTestsBase
     private TodoDb _context = null!;
 
     [OneTimeSetUp]
-    public void OneTimeSetup()
+    public async Task OneTimeSetup()
     {
         _factory = new TestingApplication();
-
         _client = _factory.CreateClient();
-
-        _context = TodoDbFactory.Create(DbName.TestDb);
+        _context = await TodoDbFactory.Create(DbName.TestDb);
     }
 
     [TearDown]
-    public void TearDown()
+    public async Task TearDown()
     {
-        TodoDbFactory.ClearData(_context);
-        _context = TodoDbFactory.Create(DbName.TestDb);
+        await TodoDbFactory.ClearData(_context);
+        _context = await TodoDbFactory.Create(DbName.TestDb);
     }
 
     [OneTimeTearDown]
-    public void OneTimeTearDown()
+    public async Task OneTimeTearDown()
     {
         _client.Dispose();
         _factory.Dispose();
-        TodoDbFactory.Dispose(_context);
+        await TodoDbFactory.Dispose(_context);
     }
 }

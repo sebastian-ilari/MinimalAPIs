@@ -21,7 +21,7 @@ public static class TodoEndpoints
 
     static async Task<IResult> GetAllTodos(TodoDb db)
     {
-        return TypedResults.Ok(await db.Todos.ToArrayAsync());
+        return TypedResults.Ok(await db.Todos.Select(x => new TodoDto(x)).ToArrayAsync());
     }
 
     static async Task<IResult> GetCompleteTodos(TodoDb db)

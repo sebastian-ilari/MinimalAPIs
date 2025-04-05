@@ -1,19 +1,47 @@
-﻿@MinimalAPIs_HostAddress = https://localhost:7097
+﻿@HostAddress = https://localhost:7097
 
-GET {{MinimalAPIs_HostAddress}}/todos
+### Create a Todo
 
-###
-
-POST {{MinimalAPIs_HostAddress}}/todos
+POST {{HostAddress}}/todos
 Content-Type: application/json
-
 {
   "name":"water plants",
   "isComplete":false
 }
 
-###
+### Create a completed Todo
 
-GET {{MinimalAPIs_HostAddress}}/todos/complete
+POST {{HostAddress}}/todos
+Content-Type: application/json
+{
+  "name":"wash the motorbike",
+  "isComplete":true
+}
 
-###
+### Get all Todos
+
+GET {{HostAddress}}/todos
+
+### Get a specific Todo
+
+@getId=1
+GET {{HostAddress}}/todos/{{getId}}
+
+### Get all completed Todos
+
+GET {{HostAddress}}/todos/complete
+
+### Delete a Todo
+
+@deleteId=1
+DELETE {{HostAddress}}/todos/{{deleteId}}
+
+### Update a Todo
+
+@putId=2
+PUT {{HostAddress}}/todos/{{putId}}
+Content-Type: application/json
+
+{
+  "isComplete": true
+}

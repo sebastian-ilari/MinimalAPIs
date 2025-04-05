@@ -1,0 +1,6 @@
+﻿@Api_HostAddress = https://localhost:7097
+
+@id=0
+GET {{Api_HostAddress}}/todos/{{id}}
+
+###
