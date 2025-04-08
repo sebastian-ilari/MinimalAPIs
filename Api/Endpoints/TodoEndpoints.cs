@@ -18,6 +18,7 @@ public static class TodoEndpoints
         group.MapGet("/complete", GetCompleteTodos);
         group.MapGet("/{id:int}", GetTodoById);
         group.MapPost("/", CreateTodo);
+        group.MapPost("/batch", CreateTodoBatch);
         group.MapPut("/{id:int}", UpdateTodo);
         group.MapDelete("/{id:int}", DeleteTodo);
 
@@ -58,6 +59,22 @@ public static class TodoEndpoints
         todoDto = new TodoDto(todo);
 
         return TypedResults.Created($"/todos/{todo.Id}", todoDto);
+    }
+
+    static async Task<IResult> CreateTodoBatch(TodoDto[] todoDtos, TodoDb db, ISecretService secretService)
+    {
+        var secret = secretService.GetSecret();
+        var todos = todoDtos.Select(t => new Todo
+        {
+            IsComplete = t.IsComplete,
+            Name = t.Name,
+            Secret = secret
+        });
+
+        await db.Todos.AddRangeAsync(todos);
+        await db.SaveChangesAsync();
+
+        return TypedResults.Created($"/todos", todoDtos);
     }
 
     static async Task<IResult> UpdateTodo(int id, TodoDto todoDto, TodoDb db)

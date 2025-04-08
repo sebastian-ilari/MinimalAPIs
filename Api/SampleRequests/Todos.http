@@ -5,8 +5,8 @@
 POST {{HostAddress}}/todos
 Content-Type: application/json
 {
-  "name":"water plants",
-  "isComplete":false
+  "name": "water plants",
+  "isComplete": false
 }
 
 ### Create a completed Todo
@@ -14,9 +14,24 @@ Content-Type: application/json
 POST {{HostAddress}}/todos
 Content-Type: application/json
 {
-  "name":"wash the motorbike",
-  "isComplete":true
+  "name": "wash the motorbike",
+  "isComplete": true
 }
+
+### Create batch Todo
+
+POST {{HostAddress}}/todos/batch
+Content-Type: application/json
+[
+  {
+    "name": "water plants",
+    "isComplete": false
+  },
+  {
+    "name": "unplug devices",
+    "isComplete": false
+  }
+]
 
 ### Get all Todos
 
