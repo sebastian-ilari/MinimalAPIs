@@ -9,14 +9,19 @@ public static class TodoEndpoints
 {
     public static void RegisterTodoEndpoints(this WebApplication app)
     {
-        RouteGroupBuilder todoApp = app.MapGroup("/todos");
+        RouteGroupBuilder todoApp = app.MapGroup("/todos").MapTodosApi();
+    }
 
-        todoApp.MapGet("/", GetAllTodos);
-        todoApp.MapGet("/complete", GetCompleteTodos);
-        todoApp.MapGet("/{id}", GetTodoById);
-        todoApp.MapPost("/", CreateTodo);
-        todoApp.MapPut("/{id}", UpdateTodo);
-        todoApp.MapDelete("/{id}", DeleteTodo);
+    static RouteGroupBuilder MapTodosApi(this RouteGroupBuilder group)
+    {
+        group.MapGet("/", GetAllTodos);
+        group.MapGet("/complete", GetCompleteTodos);
+        group.MapGet("/{id:int}", GetTodoById);
+        group.MapPost("/", CreateTodo);
+        group.MapPut("/{id:int}", UpdateTodo);
+        group.MapDelete("/{id:int}", DeleteTodo);
+
+        return group;
     }
 
     static async Task<IResult> GetAllTodos(TodoDb db)
@@ -24,9 +29,10 @@ public static class TodoEndpoints
         return TypedResults.Ok(await db.Todos.Select(x => new TodoDto(x)).ToArrayAsync());
     }
 
-    static async Task<IResult> GetCompleteTodos(TodoDb db)
+    static async Task<IResult> GetCompleteTodos(TodoDb db, CancellationToken cancellationToken)
     {
-        return TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDto(x)).ToListAsync());
+        return TypedResults.Ok(await db.Todos.Where(t => t.IsComplete).Select(x => new TodoDto(x))
+            .ToListAsync(cancellationToken));
     }
 
     static async Task<IResult> GetTodoById(int id, TodoDb db)
