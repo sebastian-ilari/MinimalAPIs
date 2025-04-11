@@ -19,6 +19,11 @@ await TodoDbFactory.Create(DbName.ApplicationDb);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddTransient<ISecretService, SecretService>();
 
+builder.Services.ConfigureHttpJsonOptions(options => {
+    options.SerializerOptions.WriteIndented = true;
+    options.SerializerOptions.IncludeFields = true;
+});
+
 var app = builder.Build();
 
 TodoEndpoints.RegisterTodoEndpoints(app);
