@@ -17,7 +17,8 @@ public static class TodoEndpoints
         group.MapGet("/", GetAllTodos);
         group.MapGet("/complete", GetCompleteTodos);
         group.MapGet("/{id:int}", GetTodoById);
-        group.MapPost("/", CreateTodo);
+        group.MapPost("/", async ([AsParameters] CreateTodoRequest request) 
+            => await CreateTodo(request.TodoDto, request.Db, request.SecretService));
         group.MapPost("/batch", CreateTodoBatch);
         group.MapPut("/{id:int}", UpdateTodo);
         group.MapDelete("/{id:int}", DeleteTodo);
